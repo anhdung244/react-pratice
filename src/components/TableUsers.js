@@ -124,12 +124,6 @@ const TableUsers = (props) => {
   }, 500);
 
   //Download CSV Custom
-  const csvData = [
-    ["firstname", "lastname", "email"],
-    ["Ahmed", "Tomi", "ah@smthing.co.com"],
-    ["Raed", "Labes", "rl@smthing.co.com"],
-    ["Yezzi", "Min l3b", "ymin@cocococo.com"],
-  ];
 
   const getUsersExport = (event, done) => {
     let result = [];
@@ -164,14 +158,17 @@ const TableUsers = (props) => {
           let rawCSV = results.data;
           if (rawCSV.length > 0) {
             if (rawCSV[0] && rawCSV[0].length === 3) {
+              //check format của thằng header của cột
               if (
                 rawCSV[0][0] !== "email" ||
                 rawCSV[0][1] !== "first_name" ||
                 rawCSV[0][2] !== "last_name"
               ) {
-                toast.error("Wrong format CSV file");
+                toast.error("Wrong format Header CSV file");
               } else {
                 let final = [];
+
+                //xóa dòng cuối cùng empty trong data
                 rawCSV.map((item, index) => {
                   if (index > 0 && item.length === 3) {
                     let obj = {};
@@ -184,7 +181,7 @@ const TableUsers = (props) => {
                 setListUsers(final);
               }
             } else {
-              toast.error("Wrong format CSV file");
+              toast.error("Wrong format Header CSV file");
             }
           }
         },
